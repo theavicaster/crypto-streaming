@@ -1,3 +1,8 @@
 __pycache__/
 venv/
 .idea
+logs/*
+
+/consumer/target/*
+!/consumer/target/scala-2.12/consumer*.jar
+/consumer/project/*
