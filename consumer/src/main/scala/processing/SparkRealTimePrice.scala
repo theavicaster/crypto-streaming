@@ -18,7 +18,7 @@ class StreamingPrice(appName: String)
   val inputDF: DataFrame = spark
     .readStream
     .format("kafka")
-    .option("kafka.bootstrap.servers", "localhost:9092")
+    .option("kafka.bootstrap.servers", kafkaBootstrapServers)
     .option("subscribe", "crypto_topic")
     .load()
 
@@ -26,7 +26,6 @@ class StreamingPrice(appName: String)
       from_json( col("value").cast("string"), CryptoSchema.schema)
       .as("cryptoUpdate"))
       .select("cryptoUpdate.*")
-
 
   val castedDF: DataFrame = parsedDF
     .withColumn("price", parsedDF("price").cast("double"))

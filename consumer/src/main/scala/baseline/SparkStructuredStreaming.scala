@@ -18,6 +18,7 @@ abstract class SparkStructuredStreaming(appName: String) {
     throw new FileNotFoundException("Configuration file could not be loaded")
   }
 
+  val kafkaBootstrapServers: String = config.getProperty("kafka.bootstrap.servers")
   val watermarkThreshold: String = config.getProperty("watermark.threshold")
   val windowDuration: String = config.getProperty("window.duration")
   val slideDuration: String = config.getProperty("slide.duration")

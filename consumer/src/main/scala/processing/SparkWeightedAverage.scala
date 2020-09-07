@@ -5,14 +5,15 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.streaming.StreamingQuery
 import schema.CryptoSchema
+import utilities.WeightedAverage
 
-object SparkRollingAverage {
+object SparkWeightedAverage {
   def main(args: Array[String]): Unit = {
-    StreamingPriceRollingAverage("Rolling Average Prices")
+    StreamingPriceWeightedAverage("Weighted Average Prices")
   }
 }
 
-class StreamingPriceRollingAverage(appName: String)
+class StreamingPriceWeightedAverage(appName: String)
   extends SparkStructuredStreaming(appName: String) {
 
   val inputDF: DataFrame = spark
@@ -32,12 +33,14 @@ class StreamingPriceRollingAverage(appName: String)
 
   castedDF.printSchema()
 
+  val wtd_avg: WeightedAverage.type = WeightedAverage
+
   val windowedDF: DataFrame = castedDF
     .withWatermark("timestamp", watermarkThreshold)
     .groupBy(
       window(col("timestamp"), windowDuration, slideDuration),
       col("symbolCoin"))
-    .agg(mean(col("price")).as("rollingAverage"))
+    .agg(wtd_avg(col("price")).as("weightedAverage"))
 
   windowedDF.printSchema()
 
@@ -52,16 +55,15 @@ class StreamingPriceRollingAverage(appName: String)
 
 }
 
-object StreamingPriceRollingAverage{
-  def apply(appName: String): StreamingPriceRollingAverage =
-    new StreamingPriceRollingAverage(appName)
+object StreamingPriceWeightedAverage {
+  def apply(appName: String): StreamingPriceWeightedAverage =
+    new StreamingPriceWeightedAverage(appName)
 }
-
 
 /*
 sbt package && \
 /opt/spark/bin/spark-submit \
---class processing.SparkRollingAverage --master local[*] \
+--class processing.SparkWeightedAverage --master local[*] \
 --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 \
 target/scala-2.12/consumer_2.12-1.0.jar
  */
