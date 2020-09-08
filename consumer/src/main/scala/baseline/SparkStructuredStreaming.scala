@@ -9,19 +9,18 @@ import org.apache.spark.sql.SparkSession
 abstract class SparkStructuredStreaming(appName: String) {
 
   val resourceStream: InputStream = getClass.getResourceAsStream("/config.properties")
-  val config: Properties = new Properties()
+  val CONFIG: Properties = new Properties()
 
   if (resourceStream != null) {
-    config.load(resourceStream)
-  }
-  else {
+    CONFIG.load(resourceStream)
+  } else {
     throw new FileNotFoundException("Configuration file could not be loaded")
   }
 
-  val kafkaBootstrapServers: String = config.getProperty("kafka.bootstrap.servers")
-  val watermarkThreshold: String = config.getProperty("watermark.threshold")
-  val windowDuration: String = config.getProperty("window.duration")
-  val slideDuration: String = config.getProperty("slide.duration")
+  val KAFKA_BOOTSTRAP_SERVERS: String = CONFIG.getProperty("kafka.bootstrap.servers")
+  val WATERMARK_THRESHOLD: String = CONFIG.getProperty("watermark.threshold")
+  val WINDOW_DURATION: String = CONFIG.getProperty("window.duration")
+  val SLIDE_DURATION: String = CONFIG.getProperty("slide.duration")
 
   val spark: SparkSession = SparkSession
     .builder()

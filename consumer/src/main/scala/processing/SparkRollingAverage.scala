@@ -18,7 +18,7 @@ class StreamingPriceRollingAverage(appName: String)
   val inputDF: DataFrame = spark
     .readStream
     .format("kafka")
-    .option("kafka.bootstrap.servers", kafkaBootstrapServers)
+    .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)
     .option("subscribe", "crypto_topic")
     .load()
 
@@ -33,9 +33,9 @@ class StreamingPriceRollingAverage(appName: String)
   castedDF.printSchema()
 
   val windowedDF: DataFrame = castedDF
-    .withWatermark("timestamp", watermarkThreshold)
+    .withWatermark("timestamp", WATERMARK_THRESHOLD)
     .groupBy(
-      window(col("timestamp"), windowDuration, slideDuration),
+      window(col("timestamp"), WINDOW_DURATION, SLIDE_DURATION),
       col("symbolCoin"))
     .agg(mean(col("price")).as("rollingAverage"))
 
