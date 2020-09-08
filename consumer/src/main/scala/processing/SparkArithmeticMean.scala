@@ -6,20 +6,20 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.streaming.StreamingQuery
 import schema.CryptoSchema
 
-object SparkRollingAverage {
+object SparkArithmeticMean {
   def main(args: Array[String]): Unit = {
-    StreamingPriceRollingAverage("Rolling Average Prices")
+    StreamingPriceArithmeticMean("Arithmetic Mean Prices")
   }
 }
 
-class StreamingPriceRollingAverage(appName: String)
+class StreamingPriceArithmeticMean(appName: String)
   extends SparkStructuredStreaming(appName: String) {
 
   val inputDF: DataFrame = spark
     .readStream
     .format("kafka")
     .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)
-    .option("subscribe", "crypto_topic")
+    .option("subscribe", KAFKA_TOPIC)
     .load()
 
   val parsedDF: DataFrame = inputDF.select(
@@ -37,7 +37,7 @@ class StreamingPriceRollingAverage(appName: String)
     .groupBy(
       window(col("timestamp"), WINDOW_DURATION, SLIDE_DURATION),
       col("symbolCoin"))
-    .agg(mean(col("price")).as("rollingAverage"))
+    .agg(mean(col("price")).as("arithmeticMean"))
 
   windowedDF.printSchema()
 
@@ -52,16 +52,16 @@ class StreamingPriceRollingAverage(appName: String)
 
 }
 
-object StreamingPriceRollingAverage{
-  def apply(appName: String): StreamingPriceRollingAverage =
-    new StreamingPriceRollingAverage(appName)
+object StreamingPriceArithmeticMean{
+  def apply(appName: String): StreamingPriceArithmeticMean =
+    new StreamingPriceArithmeticMean(appName)
 }
 
 
 /*
 sbt package && \
 /opt/spark/bin/spark-submit \
---class processing.SparkRollingAverage --master local[*] \
+--class processing.SparkArithmeticMean --master local[*] \
 --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 \
 target/scala-2.12/consumer_2.12-1.0.jar
  */

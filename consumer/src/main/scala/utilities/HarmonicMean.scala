@@ -4,13 +4,8 @@ import org.apache.spark.sql.Row
 import org.apache.spark.sql.expressions.{MutableAggregationBuffer, UserDefinedAggregateFunction}
 import org.apache.spark.sql.types._
 
-/**
- * For a list [ 10 , 15, 30 ] =>
- * Weighted average is =>
- * ( 10 * 1 + 15 * 2 + 30 * 3 ) / ( 1 + 2 + 3 )
- * = 21.666...
- */
-object WeightedAverage extends UserDefinedAggregateFunction {
+
+object HarmonicMean extends UserDefinedAggregateFunction {
   // This is the input fields for your aggregate function.
   override def inputSchema: org.apache.spark.sql.types.StructType =
     StructType(StructField("value", DoubleType) :: Nil)
@@ -18,7 +13,7 @@ object WeightedAverage extends UserDefinedAggregateFunction {
   // This is the internal fields you keep for computing your aggregate.
   override def bufferSchema: StructType = StructType(
     StructField("count", LongType) ::
-      StructField("sum", DoubleType) :: Nil
+      StructField("product", DoubleType) :: Nil
   )
 
   // This is the output type of your aggregation function.
@@ -35,7 +30,7 @@ object WeightedAverage extends UserDefinedAggregateFunction {
   // This is how to update your buffer schema given an input.
   override def update(buffer: MutableAggregationBuffer, input: Row): Unit = {
     buffer(0) = buffer.getAs[Long](0) + 1
-    buffer(1) = buffer.getAs[Double](1) + (input.getAs[Double](0) * buffer.getAs[Long](0))
+    buffer(1) = buffer.getAs[Double](1) + (1.toDouble / input.getAs[Double](0))
   }
 
   // This is how to merge two objects with the bufferSchema type.
@@ -46,6 +41,6 @@ object WeightedAverage extends UserDefinedAggregateFunction {
 
   // This is where you output the final value, given the final value of your bufferSchema.
   override def evaluate(buffer: Row): Double = {
-    buffer.getDouble(1) / ( buffer.getLong(0) * ( buffer.getLong(0) + 1L) / 2L )
+    buffer.getLong(0) / buffer.getDouble(1)
   }
 }

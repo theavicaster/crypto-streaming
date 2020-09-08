@@ -18,6 +18,8 @@ abstract class SparkStructuredStreaming(appName: String) {
   }
 
   val KAFKA_BOOTSTRAP_SERVERS: String = CONFIG.getProperty("kafka.bootstrap.servers")
+  val KAFKA_TOPIC: String = CONFIG.getProperty("kafka.topic")
+
   val WATERMARK_THRESHOLD: String = CONFIG.getProperty("watermark.threshold")
   val WINDOW_DURATION: String = CONFIG.getProperty("window.duration")
   val SLIDE_DURATION: String = CONFIG.getProperty("slide.duration")

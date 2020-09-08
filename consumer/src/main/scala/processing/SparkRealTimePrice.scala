@@ -19,7 +19,7 @@ class StreamingPrice(appName: String)
     .readStream
     .format("kafka")
     .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVERS)
-    .option("subscribe", "crypto_topic")
+    .option("subscribe", KAFKA_TOPIC)
     .load()
 
   val parsedDF: DataFrame = inputDF.select(
