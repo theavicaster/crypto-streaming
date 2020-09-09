@@ -24,9 +24,14 @@ abstract class SparkStructuredStreaming(appName: String) {
   val WINDOW_DURATION: String = CONFIG.getProperty("window.duration")
   val SLIDE_DURATION: String = CONFIG.getProperty("slide.duration")
 
+  val CASSANDRA_CONNECTION_HOST: String = CONFIG.getProperty("spark.cassandra.connection.host")
+  val CASSANDRA_CONNECTION_PORT: String = CONFIG.getProperty("spark.cassandra.connection.port")
+
   val spark: SparkSession = SparkSession
     .builder()
     .appName(appName)
+    .config("spark.cassandra.connection.host", CASSANDRA_CONNECTION_HOST)
+    .config("spark.cassandra.connection.port", CASSANDRA_CONNECTION_PORT)
     .getOrCreate()
   spark.sparkContext.setLogLevel("ERROR")
 

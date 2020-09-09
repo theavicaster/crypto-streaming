@@ -19,14 +19,14 @@ class APIService:
 
     def parseCoinData(self, coinData):
         try:
-            return {"nameCoin": coinData["name"],
-                    "symbolCoin": coinData["symbol"],
-                    "numberOfMarkets": coinData["numberOfMarkets"],
+            return {"name_coin": coinData["name"],
+                    "symbol_coin": coinData["symbol"],
+                    "number_of_markets": coinData["numberOfMarkets"],
                     "volume": coinData["volume"],
-                    "marketCap": coinData["marketCap"],
-                    "totalSupply": coinData["totalSupply"],
+                    "market_cap": coinData["marketCap"],
+                    "total_supply": coinData["totalSupply"],
                     "price": coinData["price"],
-                    "percentChange24hr": coinData["change"],
+                    "percent_change_24hr": coinData["change"],
                     "timestamp": currentUnixTime()}
         except Exception as e:
             LOGGER.error(f"Exception occurred : {e}")

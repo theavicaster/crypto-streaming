@@ -2,9 +2,14 @@ name := "consumer"
 
 version := "1.0"
 
-scalaVersion := "2.12.12"
+scalaVersion := "2.11.12"
 
-libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "3.0.0" % "provided",
-  "org.apache.spark" %% "spark-sql" % "3.0.0" % "provided",
-)
+libraryDependencies ++= {
+  val sparkVersion = "2.4.6"
+  val cassandraVersion = "2.4.3"
+  Seq(
+    "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
+    "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
+    "com.datastax.spark" %% "spark-cassandra-connector" % cassandraVersion
+  )
+}

@@ -19,7 +19,8 @@ producer = KafkaProducer(value_serializer=lambda v: dumps(v).encode('utf-8'),
 
 def produceMessage(filteredJson):
     for coinData in filteredJson:
-        nameCoin = coinData["nameCoin"]
+        LOGGER.info(f"Message is : {coinData}")
+        nameCoin = coinData["name_coin"]
         try:
             producer.send(
                 topic=KAFKA_TOPIC,
