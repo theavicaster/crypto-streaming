@@ -89,7 +89,7 @@ cqlsh
 ```
 
 * Create the necessary tables.
-* DDL is found in *cqlqueries.txt*
+* DDL is found in *cqlqueries.cql*
 
 
 ### Spark Consumer
@@ -101,16 +101,18 @@ Uses
 
 #### Package and Submit
 
+
+
 *  Navigate to */consumer* directory.
 *  Run the following in your shell.
 *  $SPARK_HOME is the Spark installation directory.
 ```
 sbt package && \
-$SPARK_HOME/spark-submit \
+/opt/spark/bin/spark-submit \
 --class processing.SparkRealTimePriceUpdates --master local[*] \
 --packages com.datastax.spark:spark-cassandra-connector_2.11:2.4.3,\
 org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.6 \
-$ target/scala-2.11/consumer_2.11-1.0.jar
+target/scala-2.11/consumer_2.11-1.0.jar
 ```
 
 

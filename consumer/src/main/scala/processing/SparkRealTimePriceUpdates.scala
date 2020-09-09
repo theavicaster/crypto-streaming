@@ -9,6 +9,7 @@ import schema.CryptoSchema
 import utilities.{GeometricMean, HarmonicMean}
 
 object SparkRealTimePriceUpdates {
+
   def main(args: Array[String]): Unit = {
     StreamingRealTimePriceUpdates("Real-time Price Updates")
   }
@@ -77,14 +78,3 @@ object StreamingRealTimePriceUpdates{
   def apply(appName: String): StreamingRealTimePriceUpdates =
     new StreamingRealTimePriceUpdates(appName)
 }
-
-/*
-
-sbt package && \
-/opt/spark/bin/spark-submit \
---class processing.SparkRealTimePriceUpdates --master local[*] \
---packages com.datastax.spark:spark-cassandra-connector_2.11:2.4.3,\
-org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.6 \
-target/scala-2.11/consumer_2.11-1.0.jar
-
- */

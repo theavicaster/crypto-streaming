@@ -1,6 +1,6 @@
 import requests
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
-from utils import currentUnixTime, initLogger
+from producer.utils import currentUnixTime, initLogger
 
 LOGGER = initLogger("API_SERVICE_LOG")
 

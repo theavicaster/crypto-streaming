@@ -1,7 +1,7 @@
 from kafka import KafkaProducer
 from json import dumps
-from utils import initLogger, getConfigPath, readConfigFile
-from apiService import APIService
+from producer.utils import initLogger, getConfigPath, readConfigFile
+from producer.apiService import APIService
 import time
 
 LOGGER = initLogger("KAFKA_PRODUCER_LOG")
