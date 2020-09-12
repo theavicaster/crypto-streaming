@@ -2,8 +2,5 @@ __pycache__/
 .idea
 logs/*
 
-cassandraData/
-!cassandraData/cql-queries.cql
-
 /sparkConsumer/target/*
 /sparkConsumer/project/*
