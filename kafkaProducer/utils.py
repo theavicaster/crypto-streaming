@@ -4,7 +4,7 @@ import configparser
 from pathlib import Path
 import logging
 
-PROJECT_HOME_PATH = Path(__file__).parents[1]
+PROJECT_HOME_PATH = Path(__file__).parents[0]
 LOGGING_HOME_PATH = os.path.join(PROJECT_HOME_PATH, "logs")
 if not os.path.exists(LOGGING_HOME_PATH):
     os.mkdir(LOGGING_HOME_PATH)

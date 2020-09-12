@@ -1,40 +1,91 @@
 # Real-time Cryptocurrency Price Updates
+
 ```
-+------------------+        +------------------+        +------------------+        +------------------+
-|                  |        |                  |        |                  |        |                  |
-|  REST Endpoint   +------->|  Kafka Producer  +------->|  Spark Consumer  +------->|  Cassandra Sink  +
-|    Real-time     |        |     Python       |        |      Scala       |        | Constant Updates |
-+------------------+        +------------------+        +------------------+        +------------------+
++------------------+    +------------------+    +------------------+    +------------------+
+|  REST Endpoint   +--->|  Kafka Producer  +--->|  Spark Consumer  +--->|  Cassandra Sink  |
+|    Real-time     |    |     Python       |    |      Scala       |    | Constant Updates |
++------------------+    +------------------+    +------------------+    +------------------+
 ```
 
-## Usage Instructions
+* Cryptocurrency prices are fetched in real-time from [Coinranking API](https://coinranking.com/page/cryptocurrency-api)
+
+* JSON response is parsed, necessary fields extracted, and sent through to a Kafka topic via a Kafka Producer in Python
+
+* Spark Structured Streaming application in Scala consumes the messages from the Kafka topic, transforms into required data types via a schema, and calculates aggregates on real-time messages
+
+* Aggregates are calculated using window functions to calculate rolling average for each currency over a timespan. Currently supported aggregates are -
+
+  * Moving Arithmetic Mean
+  * Moving Geometric Mean
+  * Moving Harmonic Mean
+
+* Cassandra sink is used to persist both real-time prices as well as calculated aggregates from Spark
+
+
+## Docker Installation
+
+* Download and install [Docker Engine](https://hub.docker.com/search?q=&type=edition&offering=community&operating_system=linux) for your operating system. (Linux recommended)
+
+* Download and install [Docker Compose](https://docs.docker.com/compose/install/)
+
+* Navigate to the directory where the project is cloned
+
+* In your terminal, run 
+
+```
+docker-compose up
+```
+
+* Check the logs on the terminal and wait till cryptocurrency messages are being published
+
+* In another terminal, from the project home directory run 
+```
+bash start-services.sh
+```
+
+* To monitor Spark jobs, visit `localhost:8080` in your browser
+
+* Wait a few minutes for the job to execute as it is downloading packages, Spark UI will be updated with master and worker when the job begins
+
+* To shut services down, run
+
+```
+docker-compose down
+```
+
+
+## Manual Installation
 
 ### Kafka Producer
 
-Uses 
+Uses
+
 - Python 3.8.2  
 - Apache Kafka 2.6.0
 
 
-##### Zookeeper
+#### Zookeeper
 
-*  Navigate to Kafka installation directory and start Zookeeper in your shell.
+* Navigate to Kafka installation directory and start Zookeeper in your shell
+
 ```
 cd $KAFKA_HOME
 bin/zookeeper-server-start.sh config/zookeeper.properties 
 ```
 
-##### Kafka Server
+#### Kafka Server
 
-*  Navigate to Kafka installation directory and start Kafka server in your shell.
+* Navigate to Kafka installation directory and start Kafka server in your shell
+
 ```
 cd $KAFKA_HOME
 bin/kafka-server-start.sh config/server.properties
 ```
 
-##### Kafka Topic
+#### Kafka Topic
 
-*  Navigate to Kafka installation directory and create a Kafka topic *"crypto_topic"*.
+* Navigate to Kafka installation directory and create a Kafka topic *"crypto_topic"*
+
 ```
 cd $KAFKA_HOME
 bin/kafka-topics.sh --bootstrap-server localhost:9092 --topic crypto_topic \
@@ -42,60 +93,82 @@ bin/kafka-topics.sh --bootstrap-server localhost:9092 --topic crypto_topic \
 ```
 
 * Check if the topic is created.
+
 ```
 kafka-topics --bootstrap-server localhost:9092 --list
 ```
 
-##### Python Producer
+#### Python Producer
 
-* Navigate to directory where the project is cloned.
-* Create and activate your virtual environment.
+* Navigate to `/kafkaProducer`
+* In `config.ini` change
+
+```
+[kafka]
+bootstrap_servers=kafka:9092
+```
+
+to
+
+```
+[kafka]
+bootstrap_servers=localhost:9092
+```
+
+* Create and activate your virtual environment
+
 ```
 python3 -m venv cryptoEnv
 source cryptoEnv/bin/activate
 ```
 
 * Install dependencies.
+
 ```
 pip install -r requirements.txt
 ```
 
 * Start the producer service.
+
 ```
-python3 producer/kafkaProducerService.py
+python3 kafkaProducer/kafkaProducerService.py
 ```
 
 ### Cassandra Sink
 
-Uses 
+Uses
+
 - Apache Cassandra 3.11.8
 - Java 1.8.0_265 OpenJDK
 
 #### Create Tables
 
 * Start Cassandra service.
+
 ```
 sudo service cassandra start
 ```
 
 * Check status of nodes.
+
 ```
 nodetool status
 ```
 
-* Open Cassandra Query Language shell.
+* Open Cassandra Query Language shell
+
 ```
 cqlsh
 ```
 
 * Create the necessary tables.
-* DDL is found in *cqlqueries.cql*
-
+* DDL is found in `cassandraData/cqlqueries.cql`
 
 ### Spark Consumer
 
-Uses 
-- Apache Spark 2.4.6
+Uses
+
+- Apache Spark 2.4.5
 - SBT 1.3.13
 - Java 1.8.0_265 OpenJDK
 
@@ -103,24 +176,27 @@ Uses
 
 
 
-*  Navigate to */consumer* directory.
-*  Run the following in your shell.
-*  $SPARK_HOME is the Spark installation directory.
+*  Navigate to `/sparkConsumer`
+*  In `src/main/resources/config.properties` change
+```
+kafka.bootstrap.servers=kafka:9092
+spark.cassandra.connection.host=cassandra
+```
+
+to
+
+```
+kafka.bootstrap.servers=localhost:9092
+spark.cassandra.connection.host=localhost
+```
+
+*  Run the following in your shell, where `$SPARK_HOME` is the Spark installation directory
+
 ```
 sbt package && \
-/opt/spark/bin/spark-submit \
---class processing.SparkRealTimePriceUpdates --master local[*] \
---packages com.datastax.spark:spark-cassandra-connector_2.11:2.4.3,\
-org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.6 \
-target/scala-2.11/consumer_2.11-1.0.jar
+$SPARK_HOME/bin/spark-submit --master local[*] --class processing.SparkRealTimePriceUpdates \
+--packages com.datastax.spark:spark-cassandra-connector_2.11:2.4.3,org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 \
+target/scala-2.11/sparkconsumer_2.11-1.0-RELEASE.jar
 ```
 
-
-
-
-
-
-
-
-
-
+* Monitor Spark from `localhost:8080` on your browser

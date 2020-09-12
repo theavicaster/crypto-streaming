@@ -1,8 +1,9 @@
 __pycache__/
-cryptoEnv/
 .idea
 logs/*
 
-/consumer/target/*
-!/consumer/target/scala-2.12/consumer*.jar
-/consumer/project/*
+cassandraData/
+!cassandraData/cql-queries.cql
+
+/sparkConsumer/target/*
+/sparkConsumer/project/*
