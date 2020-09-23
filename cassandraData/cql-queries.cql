@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS crypto_updates.realtime_prices(
 	percent_change_24hr DECIMAL,
 	timestamp TIMESTAMP,
 	PRIMARY KEY (symbol_coin, timestamp)
-) WITH comment = 'Real-time prices with other metadata';
+) WITH CLUSTERING ORDER BY (timestamp DESC);
 
 
 CREATE TABLE IF NOT EXISTS crypto_updates.rolling_aggregates(
@@ -27,4 +27,4 @@ CREATE TABLE IF NOT EXISTS crypto_updates.rolling_aggregates(
 	start_time TIMESTAMP,
 	end_time TIMESTAMP,
 	PRIMARY KEY (symbol_coin, end_time)
-) WITH comment = 'Rolling aggregates on real-time prices';
+) WITH CLUSTERING ORDER BY (end_time DESC);

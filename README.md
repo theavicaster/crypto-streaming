@@ -1,10 +1,10 @@
 # Real-time Cryptocurrency Price Updates
 
 ```
-+------------------+    +------------------+    +------------------+    +------------------+
-|  REST Endpoint   +--->|  Kafka Producer  +--->|  Spark Consumer  +--->|  Cassandra Sink  |
-|    Real-time     |    |     Python       |    |      Scala       |    | Constant Updates |
-+------------------+    +------------------+    +------------------+    +------------------+
++------------------+    +------------------+    +------------------+    +------------------+    +------------------+ 
+|  REST Endpoint   +--->|  Kafka Producer  +--->|  Spark Consumer  +--->|  Cassandra Sink  +--->| Node.js Backend  |
+|    Real-time     |    |     Python       |    |      Scala       |    | Constant Updates |    |  REST Endpoints  |
++------------------+    +------------------+    +------------------+    +------------------+    +------------------+
 ```
 
 * Cryptocurrency prices are fetched in real-time from [Coinranking API](https://coinranking.com/page/cryptocurrency-api)
@@ -20,6 +20,8 @@
   * Moving Harmonic Mean
 
 * Cassandra sink is used to persist both real-time prices as well as calculated aggregates from Spark
+
+* Node.js and Express is used to create REST Endpoints to fetch the latest data from Cassandra
 
 
 ## Docker Installation
@@ -46,6 +48,12 @@ bash start-services.sh
 * To monitor Spark jobs, visit `localhost:8080` in your browser
 
 * Wait a few minutes for the job to execute as it is downloading packages, Spark UI will be updated with master and worker when the job begins
+
+* Visit `localhost:3000` to get the data as JSON. REST Endpoints are -
+    - `/latestPrice` fetches the latest price of every coin
+    - `/latestPrice/symbol_coin` fetches the latest price of the selected coin, eg. `/latestPrice/BTC`
+    - `/latestAggregate` fetches the latest calculated aggregates of every coin
+    - `/latestAggregate/symbol_coin` fetches the latest calculated aggregate of the selected coin in the most recent sliding window, eg. `/latestAggregate/ETH`
 
 * To shut services down, run
 
@@ -200,3 +208,33 @@ target/scala-2.11/sparkconsumer_2.11-1.0-RELEASE.jar
 ```
 
 * Monitor Spark from `localhost:8080` on your browser
+
+### Node.js Backend
+
+Uses
+
+- Node.js 14.11.0
+
+#### Start Server
+
+*  Navigate to `/nodeRESTBackend`
+*  In `src/config.json` change
+```
+"cassandraContactPoint" : "cassandra:9042",
+```
+
+to
+
+```
+"cassandraContactPoint" : "localhost:9042",
+```
+
+* Install packages
+```
+npm install
+```
+
+* Start the server
+```
+node src/server.js
+```

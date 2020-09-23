@@ -1,0 +1,15 @@
+{
+  "name": "node-backend",
+  "version": "1.0.0",
+  "description": "RESTful Service to fetch data from Cassandra",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Avinandan Banerjee",
+  "license": "ISC",
+  "dependencies": {
+    "cassandra-driver": "^4.6.0",
+    "express": "^4.17.1"
+  }
+}

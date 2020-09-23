@@ -1,4 +1,3 @@
-
 version: "3"
 
 services:
@@ -38,7 +37,6 @@ services:
         networks: 
             - crypto-network
       
-            
     cassandra:
         image: cassandra:3.11.8
         container_name: cassandra
@@ -73,7 +71,20 @@ services:
             - ./sparkConsumer:/sparkConsumer
         networks:
             - crypto-network
-    
+
+    node-backend:
+        image: node:lts-alpine
+        container_name: node-backend
+        command: >
+                sh -c "cd nodeBackend
+                && npm install
+                && node src/server.js"
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./nodeRESTBackend:/nodeBackend
+        networks: 
+            - "crypto-network"
             
 networks:
   crypto-network:

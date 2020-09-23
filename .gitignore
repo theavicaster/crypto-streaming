@@ -1,6 +1,12 @@
 __pycache__/
 .idea
-logs/*
+logs
+cryptoEnv
 
 /sparkConsumer/target/*
 /sparkConsumer/project/*
+
+cassandraData
+!cassandraData/cql-queries.cql
+
+node_modules
