@@ -51,9 +51,34 @@ bash start-services.sh
 
 * Visit `localhost:3000` to get the data as JSON. REST Endpoints are -
     - `/latestPrice` fetches the latest price of every coin
-    - `/latestPrice/symbol_coin` fetches the latest price of the selected coin, eg. `/latestPrice/BTC`
+    - `/latestPrice/symbol_coin` fetches the latest price of the selected coin.
+    - Eg. `/latestPrice/BTC` fetches -
+    ```
+    {
+        "symbol_coin": "BTC",
+        "timestamp": "2020-09-23T07:55:09.000Z",
+        "market_cap": "192961977748",
+        "name_coin": "Bitcoin",
+        "number_of_markets": "19407",
+        "percent_change_24hr": "0.36",
+        "price": "10431.8150744106",
+        "total_supply": "1849745.",
+        "volume": "14106932923"
+     }
+    ```
     - `/latestAggregate` fetches the latest calculated aggregates of every coin
-    - `/latestAggregate/symbol_coin` fetches the latest calculated aggregate of the selected coin in the most recent sliding window, eg. `/latestAggregate/ETH`
+    - `/latestAggregate/symbol_coin` fetches the latest calculated aggregate of the selected coin in the most recent sliding window
+    -  Eg. `/latestAggregate/ETH` fetches -
+    ```
+    {
+      "symbol_coin": "ETH",
+      "end_time": "2020-09-23T07:58:30.000Z",
+      "arithmetic_mean": "336.0199798016828",
+      "geometric_mean": "336.01994915594116",
+      "harmonic_mean": "336.0199185102891",
+      "start_time": "2020-09-23T07:53:30.000Z"
+    }
+    ```
 
 * To shut services down, run
 
