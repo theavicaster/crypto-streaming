@@ -21,6 +21,8 @@ class APIService:
         try:
             return {"name_coin": coinData["name"],
                     "symbol_coin": coinData["symbol"],
+                    "id": coinData["id"],
+                    "uuid": coinData["uuid"],
                     "number_of_markets": coinData["numberOfMarkets"],
                     "volume": coinData["volume"],
                     "market_cap": coinData["marketCap"],

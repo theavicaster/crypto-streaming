@@ -8,6 +8,8 @@ CREATE KEYSPACE IF NOT EXISTS crypto_updates
 CREATE TABLE IF NOT EXISTS crypto_updates.realtime_prices(
 	name_coin VARCHAR,
 	symbol_coin VARCHAR,
+	id BIGINT,
+	uuid VARCHAR,
 	number_of_markets BIGINT,
 	volume BIGINT,
 	market_cap BIGINT,

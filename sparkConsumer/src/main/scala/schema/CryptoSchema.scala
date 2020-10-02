@@ -7,6 +7,8 @@ object CryptoSchema {
   val schema: StructType = new StructType()
     .add("name_coin", DataTypes.StringType )
     .add("symbol_coin", DataTypes.StringType)
+    .add(name="id", DataTypes.LongType)
+    .add(name="uuid", DataTypes.StringType)
     .add("number_of_markets", DataTypes.LongType)
     .add("volume", DataTypes.LongType)
     .add("market_cap", DataTypes.LongType)

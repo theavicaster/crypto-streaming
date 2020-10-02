@@ -49,11 +49,38 @@ bash start-services.sh
 
 * Wait a few minutes for the job to execute as it is downloading packages, Spark UI will be updated with master and worker when the job begins
 
-* Visit `localhost:3000` to get the data as JSON. REST Endpoints are -
+* Visit `localhost:5000` to get the data as JSON. REST Endpoints are -
     - `/latestPrice` fetches the latest price of every coin
-    - `/latestPrice/symbol_coin` fetches the latest price of the selected coin, eg. `/latestPrice/BTC`
+    - `/latestPrice/symbol_coin` fetches the latest price of the selected coin.
+    - Eg. `/latestPrice/BTC` fetches -
+    ```
+  {
+    "symbol_coin": "BTC",
+    "timestamp": "2020-10-02T15:31:56.000Z",
+    "id": "1",
+    "market_cap": "195148831212",
+    "name_coin": "Bitcoin",
+    "number_of_markets": "19526",
+    "percent_change_24hr": "-3.12",
+    "price": "10545.2298078033",
+    "total_supply": "18505887",
+    "uuid": "Qwsogvtv82FCd",
+    "volume": "18990315583"
+  }
+    ```
     - `/latestAggregate` fetches the latest calculated aggregates of every coin
-    - `/latestAggregate/symbol_coin` fetches the latest calculated aggregate of the selected coin in the most recent sliding window, eg. `/latestAggregate/ETH`
+    - `/latestAggregate/symbol_coin` fetches the latest calculated aggregate of the selected coin in the most recent sliding window
+    -  Eg. `/latestAggregate/ETH` fetches -
+    ```
+    {
+      "symbol_coin": "ETH",
+      "end_time": "2020-09-23T07:58:30.000Z",
+      "arithmetic_mean": "336.0199798016828",
+      "geometric_mean": "336.01994915594116",
+      "harmonic_mean": "336.0199185102891",
+      "start_time": "2020-09-23T07:53:30.000Z"
+    }
+    ```
 
 * To shut services down, run
 
@@ -139,7 +166,7 @@ pip install -r requirements.txt
 * Start the producer service.
 
 ```
-python3 kafkaProducer/kafkaProducerService.py
+python3 kafkaProducerService.py
 ```
 
 ### Cassandra Sink
