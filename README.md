@@ -54,7 +54,6 @@ bash start-services.sh
     - `/latestPrice/symbol_coin` fetches the latest price of the selected coin.
     - Eg. `/latestPrice/BTC` fetches -
     ```
-<<<<<<< HEAD
   {
     "symbol_coin": "BTC",
     "timestamp": "2020-10-02T15:31:56.000Z",
@@ -68,19 +67,6 @@ bash start-services.sh
     "uuid": "Qwsogvtv82FCd",
     "volume": "18990315583"
   }
-=======
-    {
-        "symbol_coin": "BTC",
-        "timestamp": "2020-09-23T07:55:09.000Z",
-        "market_cap": "192961977748",
-        "name_coin": "Bitcoin",
-        "number_of_markets": "19407",
-        "percent_change_24hr": "0.36",
-        "price": "10431.8150744106",
-        "total_supply": "1849745.",
-        "volume": "14106932923"
-     }
->>>>>>> 9ee6372013eb318affb7578af71c645489e89ce1
     ```
     - `/latestAggregate` fetches the latest calculated aggregates of every coin
     - `/latestAggregate/symbol_coin` fetches the latest calculated aggregate of the selected coin in the most recent sliding window
