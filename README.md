@@ -4,12 +4,7 @@
 ## Follow installation instructions and visit [dynamic website](https://crypto-updates-integrated.netlify.app/) for integrated app.
 ---
 
-```
-+------------------+    +------------------+    +------------------+    +------------------+    +------------------+ 
-|  REST Endpoint   +--->|  Kafka Producer  +--->|  Spark Consumer  +--->|  Cassandra Sink  +--->| Node.js Backend  |
-|    Real-time     |    |     Python       |    |      Scala       |    | Constant Updates |    |  REST Endpoints  |
-+------------------+    +------------------+    +------------------+    +------------------+    +------------------+
-```
+![Flowchart](flowchart.svg)
 
 * Cryptocurrency prices are fetched in real-time from [Coinranking API](https://coinranking.com/page/cryptocurrency-api)
 
