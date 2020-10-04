@@ -1,7 +1,7 @@
 # Real-time Cryptocurrency Price Updates
 
 ## [Static website](https://crypto-updates.netlify.app/) to visit UI. [GitHub repository](https://github.com/theavicaster/crypto-ui)
-## Follow installation instructions and visit [dynamic website]() for integrated app.
+## Follow installation instructions and visit [dynamic website](https://crypto-updates-integrated.netlify.app/) for integrated app.
 ---
 
 ```
@@ -88,7 +88,7 @@ bash start-services.sh
     }
     ```
 
-* Visit [dynamic site]()
+* Visit [dynamic website](https://crypto-updates-integrated.netlify.app/)
 
 * To shut services down, run
 
