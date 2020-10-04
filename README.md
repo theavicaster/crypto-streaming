@@ -2,9 +2,11 @@
 
 ## [Static website](https://crypto-updates.netlify.app/) to visit UI. [GitHub repository](https://github.com/theavicaster/crypto-ui)
 ## Follow installation instructions and visit [dynamic website](https://crypto-updates-integrated.netlify.app/) for integrated app.
----
+
 
 ![Flowchart](flowchart.svg)
+
+
 
 * Cryptocurrency prices are fetched in real-time from [Coinranking API](https://coinranking.com/page/cryptocurrency-api)
 
