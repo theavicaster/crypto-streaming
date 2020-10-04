@@ -78,6 +78,7 @@ services:
         command: >
                 sh -c "cd nodeBackend
                 && npm install
+                && sleep 30
                 && node src/server.js"
         ports:
             - "5000:5000"

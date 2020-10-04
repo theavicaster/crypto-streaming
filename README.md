@@ -1,5 +1,9 @@
 # Real-time Cryptocurrency Price Updates
 
+## [Static website](https://crypto-updates.netlify.app/) to visit UI. [GitHub repository](https://github.com/theavicaster/crypto-ui)
+## Follow installation instructions and visit [dynamic website]() for integrated app.
+---
+
 ```
 +------------------+    +------------------+    +------------------+    +------------------+    +------------------+ 
 |  REST Endpoint   +--->|  Kafka Producer  +--->|  Spark Consumer  +--->|  Cassandra Sink  +--->| Node.js Backend  |
@@ -21,7 +25,9 @@
 
 * Cassandra sink is used to persist both real-time prices as well as calculated aggregates from Spark
 
-* Node.js and Express is used to create REST Endpoints to fetch the latest data from Cassandra
+* Node.js and Express is used to create REST Endpoints to fetch and serve the latest data from Cassandra
+
+* React, Chart.js, and Material-UI is used to render responsive UI consisting of cryptocurrency cards and real-time dashboard. Updated prices and aggregates are fetched from REST Endpoint.
 
 
 ## Docker Installation
@@ -81,6 +87,8 @@ bash start-services.sh
       "start_time": "2020-09-23T07:53:30.000Z"
     }
     ```
+
+* Visit [dynamic site]()
 
 * To shut services down, run
 
@@ -265,3 +273,29 @@ npm install
 ```
 node src/server.js
 ```
+
+### React Frontend
+
+Uses
+
+- React
+- Chart.js
+- Material-UI
+
+* Visit [dynamic site](), alternatively
+
+#### Start Server
+
+*  Navigate to `/reactUI`
+
+* Install packages
+```
+npm install
+```
+
+* Start the server
+```
+npm start
+```
+
+* Visit UI from `localhost:3000` on your browser
