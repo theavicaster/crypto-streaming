@@ -1,10 +1,13 @@
 # Real-time Cryptocurrency Price Updates
 
-## [Static website](https://crypto-updates.netlify.app/) to visit UI. [GitHub repository](https://github.com/theavicaster/crypto-ui)
-## Follow installation instructions and visit [dynamic website](https://crypto-updates-integrated.netlify.app/) for integrated app.
+## [Static website](https://crypto-updates.netlify.app/) to visit UI ([GitHub repository](https://github.com/theavicaster/crypto-ui))
+## Follow installation instructions and visit [dynamic website](https://crypto-updates-integrated.netlify.app/) for integrated app
 ---
 
-![Flowchart](flowchart.svg)
+## Technologies
+
+![Flowchart](images/flowchart.svg)
+
 
 * Cryptocurrency prices are fetched in real-time from [Coinranking API](https://coinranking.com/page/cryptocurrency-api)
 
@@ -24,6 +27,17 @@
 
 * React, Chart.js, and Material-UI is used to render responsive UI consisting of cryptocurrency cards and real-time dashboard. Updated prices and aggregates are fetched from REST Endpoint.
 
+---
+
+## UI Snapshots
+
+![Landing](images/landing.png)
+
+![Cards](images/cards.png)
+
+![Dashboard](images/dashboard.png)
+
+---
 
 ## Docker Installation
 
@@ -91,6 +105,7 @@ bash start-services.sh
 docker-compose down
 ```
 
+---
 
 ## Manual Installation
 
