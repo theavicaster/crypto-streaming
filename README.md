@@ -25,6 +25,8 @@
 
 * Node.js and Express is used to create REST Endpoints to fetch and serve the latest data from Cassandra
 
+* Server-side components are containerized with Docker Compose.
+
 * React, Chart.js, and Material-UI is used to render responsive UI consisting of cryptocurrency cards and real-time dashboard. Updated prices and aggregates are fetched from REST Endpoint.
 
 ---
